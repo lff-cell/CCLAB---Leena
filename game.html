@@ -1,4 +1,3 @@
-<!-- game.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planet Exploration Game</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('space-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    #header {
+      text-align: center;
+      color: #fff;
+      background-color: #333;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    #game-container {
+      text-align: center;
+    }
+
+    #footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      background-color: #333;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
   <div id="header">
@@ -14,6 +45,7 @@
   <div id="game-container">
     <!-- The canvas where your p5.js sketch will be rendered -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <!-- Ensure p5.js is loaded before your sketch.js -->
     <script src="sketch.js"></script>
   </div>
   <div id="footer">
