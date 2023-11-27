@@ -9,7 +9,7 @@ let generatedText = "This is a placeholder for generated text.";
 
 function preload() {
   // Load your audio file
-  audio = loadSound("path/to/your/audio/file.mp3");
+  audio = loadSound("offgun.mp3");
 }
 
 function setup() {
