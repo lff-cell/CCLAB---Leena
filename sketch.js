@@ -1,12 +1,12 @@
+// sketch.js
 let planets;
-let randomPlanet;
+let currentPlanet;
 let score = 0;
 let days = 1;
 let resources = 50;
 let explorationSpeed = 5;
 
 // New variables for pixel manipulation
-let pixelColor;
 let pixelManipulated = false;
 
 // New variables for simulation
@@ -19,30 +19,27 @@ let amplitude;
 
 function preload() {
   // Load audio file for interactive audio visualization
-  audio = loadSound('offgun.mp3', function () {
-    // Audio is loaded, you can now play it
-    audio.play();
-  });
+  audio = loadSound('offgun.mp3'); // Replace 'your-audio-file.mp3' with 'offgun.mp3'
 }
 
 function setup() {
   createCanvas(800, 600);
   planets = [
     { name: "Mercury", quiz: { question: "What is the smallest planet in our solar system?", options: ["Venus", "Earth", "Mercury", "Mars"], correctAnswer: "Mercury" } },
+    { name: "Venus", quiz: { question: "Which planet is known as the 'Evening Star'?", options: ["Mercury", "Venus", "Mars", "Jupiter"], correctAnswer: "Venus" } },
+    { name: "Earth", quiz: { question: "What is the only planet known to support life?", options: ["Mars", "Earth", "Jupiter", "Saturn"], correctAnswer: "Earth" } },
+    { name: "Mars", quiz: { question: "Which planet is often called the 'Red Planet'?", options: ["Mars", "Jupiter", "Venus", "Uranus"], correctAnswer: "Mars" } },
     // Add more planets with quiz questions
   ];
-  randomPlanet = getRandomPlanet();
+  currentPlanet = getRandomPlanet();
 
   // Initialize audio amplitude for visualization
   amplitude = new p5.Amplitude();
 }
 
 function draw() {
-  background(220);
-  displaySpaceship();
-  displayPlanets();
-  displayStats();
-  handleHover();
+  background(0); // Set background to black
+
   // Simulate exploration speed based on the slider value
   frameRate(explorationSpeed);
 
@@ -56,6 +53,11 @@ function draw() {
 
   // Interactive audio visualization
   visualizeAudio();
+
+  // Display current planet and quiz
+  displayPlanet();
+  displayStats();
+  handleHover();
 }
 
 function mousePressed() {
@@ -64,11 +66,23 @@ function mousePressed() {
     initiateQuiz();
     // Trigger pixel manipulation on quiz initiation
     pixelManipulated = true;
+    // Play the loaded audio file
+    audio.play();
   }
 }
 
 function initiateQuiz() {
-  // Quiz logic (unchanged)
+  let answer = window.prompt(currentPlanet.quiz.question + "\nOptions: " + currentPlanet.quiz.options.join(", "));
+  
+  if (answer && answer.toLowerCase() === currentPlanet.quiz.correctAnswer.toLowerCase()) {
+    score += 10;
+    resources += 20;
+    currentPlanet = getRandomPlanet(); // Move to the next planet
+  } else {
+    resources -= 10;
+  }
+
+  days++;
 }
 
 function manipulatePixels() {
@@ -104,36 +118,24 @@ function getRandomPlanet() {
   return random(planets);
 }
 
-function displaySpaceship() {
-  // Display the spaceship (modify as needed)
-  fill(255, 255, 0);
-  rect(50, 200, 100, 80);
-  triangle(50, 200, 25, 150, 75, 150);
-  triangle(150, 200, 125, 150, 175, 150);
-}
-
-function displayPlanets() {
-  // Display the list of available planets and the "Explore" button
+function displayPlanet() {
+  // Display the current planet and quiz
+  textSize(24);
+  fill(255);
+  textAlign(CENTER);
+  text("Current Planet: " + currentPlanet.name, width / 2, 50);
   textSize(18);
-  fill(0);
-  text("Available Planets:", 20, 30);
-  for (let i = 0; i < planets.length; i++) {
-    text(i + 1 + ". " + planets[i].name, 20, 60 + i * 30);
-  }
-  fill(0, 255, 0);
-  rect(20, 250, 100, 40);
-  fill(0);
-  textSize(16);
-  text("Explore", 50, 275);
+  text("Quiz: " + currentPlanet.quiz.question, width / 2, 100);
 }
 
 function displayStats() {
   // Display the player's score, days spent exploring, and current resources
   textSize(18);
-  fill(0);
-  text("Score: " + score, 20, 400);
-  text("Days Spent Exploring: " + days, 20, 430);
-  text("Current Resources: " + resources, 20, 460);
+  fill(255);
+  textAlign(LEFT);
+  text("Score: " + score, 20, 20);
+  text("Days Spent Exploring: " + days, 20, 50);
+  text("Current Resources: " + resources, 20, 80);
 }
 
 function handleHover() {
