@@ -1,4 +1,4 @@
-// Define variables for your game
+// Define global variables
 let spacecraft;
 let planets = [];
 let currentPlanet;
@@ -21,6 +21,8 @@ let storyTexts = [
 let currentStoryIndex = 0;
 let textTimer = 0;
 const textDuration = 2000; // Time duration for each piece of text in milliseconds
+
+let startQuizButton; // ADDED: New button for starting the quiz
 
 function setup() {
   createCanvas(800, 600);
@@ -65,6 +67,11 @@ function setup() {
   // Add more planets as needed
   totalPlanets = planets.length;
   currentPlanet = planets[0];
+
+  // ADDED: Create the "Start Quiz" button
+  startQuizButton = createButton('Start Quiz');
+  startQuizButton.position(width - 100, height - 50);
+  startQuizButton.mousePressed(startQuiz);
 }
 
 function draw() {
@@ -91,8 +98,7 @@ function draw() {
 
     // Check if the user has visited all planets
     if (points === totalPlanets && !quizMode) {
-      quizMode = true;
-      startQuiz();
+      startQuizButton.show(); // ADDED: Show the "Start Quiz" button
     }
 
     // Check if the quiz question is displayed
@@ -130,6 +136,7 @@ function draw() {
 function keyPressed() {
   if (keyCode === ENTER && !gameStarted) {
     gameStarted = true;
+    spacecraft.setGameStarted(true); // Set gameStarted to true for the spacecraft
     currentStoryIndex++;
     textTimer = millis(); // Start the text timer
   } else if (keyCode === ENTER && quizMode && !quizAnswered) {
@@ -154,31 +161,35 @@ class Spacecraft {
     this.x = width / 2;
     this.y = height / 2;
     this.speed = 8; // Increased speed
+    this.gameStarted = false; // New property to track game state
   }
 
   update() {
-    // Implement spacecraft movement logic
-    if (keyIsDown(LEFT_ARROW)) {
-      this.x -= this.speed;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.x += this.speed;
-    }
-    if (keyIsDown(UP_ARROW)) {
-      this.y -= this.speed;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      this.y += this.speed;
-    }
+    // Check if the game has started before allowing the spacecraft to move
+    if (this.gameStarted) {
+      // Implement spacecraft movement logic
+      if (keyIsDown(LEFT_ARROW)) {
+        this.x -= this.speed;
+      }
+      if (keyIsDown(RIGHT_ARROW)) {
+        this.x += this.speed;
+      }
+      if (keyIsDown(UP_ARROW)) {
+        this.y -= this.speed;
+      }
+      if (keyIsDown(DOWN_ARROW)) {
+        this.y += this.speed;
+      }
 
-    // Check if spacecraft reaches a planet
-    for (let planet of planets) {
-      if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
-        currentPlanet = planet;
-        if (!planet.visited) {
-          points++;
-          planet.visited = true;
-          displayFact(planet.fact);
+      // Check if spacecraft reaches a planet
+      for (let planet of planets) {
+        if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
+          currentPlanet = planet;
+          if (!planet.visited) {
+            points++;
+            planet.visited = true;
+            displayFact(planet.fact);
+          }
         }
       }
     }
@@ -188,6 +199,11 @@ class Spacecraft {
     // Implement spacecraft drawing logic
     fill(255);
     ellipse(this.x, this.y, 30, 30);
+  }
+
+  // Add a new method to set the gameStarted property
+  setGameStarted(value) {
+    this.gameStarted = value;
   }
 }
 
@@ -223,11 +239,16 @@ function displayFact(fact) {
 }
 
 function startQuiz() {
+  // Hide the "Start Quiz" button
+  startQuizButton.hide();
+  
   // Display quiz introduction
   storyTexts.push("Congratulations! You've visited all planets and earned points.");
   storyTexts.push("Now, it's time for a quiz. Use the number keys to select your answer.");
   storyTexts.push("Press Enter to submit your answer.");
   storyTexts.push(currentPlanet.quizQuestion);
+
+  quizMode = true; // Start the quiz
 }
 
 function checkAnswer() {
