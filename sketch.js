@@ -1,195 +1,283 @@
-let player;
+// Define variables for your game
+let spacecraft;
 let planets = [];
 let currentPlanet;
-let zoomLevel = 1;
-let infoPanel;
-let audio;
-let amplitude;
-let generatedText = "This is a placeholder for generated text.";
+let gameStarted = false;
+let points = 0;
+let totalPlanets = 0;
+let quizMode = false;
+let quizAnswered = false;
+let userAnswer = "";
 
-function preload() {
-  // Load your audio file
-  audio = loadSound("path/to/offgun.mp3");
-}
+let storyTexts = [
+  "Welcome to the Space Exploration Game!",
+  "You are on a mission to explore distant planets.",
+  "Your spacecraft is equipped with advanced technology.",
+  "Use the arrow keys to navigate through space.",
+  "Visit planets to earn points and learn interesting facts.",
+  // Add more story texts as needed
+];
+
+let currentStoryIndex = 0;
+let textTimer = 0;
+const textDuration = 2000; // Time duration for each piece of text in milliseconds
 
 function setup() {
   createCanvas(800, 600);
-
-  // Create player spaceship
-  player = new Spaceship(width / 2, height / 2);
-
-  // Create planets
-  planets.push(new Planet(200, 200, "Earth", "The third planet from the Sun.", "earth.jpg"));
-  planets.push(new Planet(400, 400, "Mars", "The fourth planet from the Sun.", "mars.jpg"));
-  planets.push(new Planet(600, 600, "Jupiter", "The largest planet in our solar system.", "jupiter.jpg"));
-
-  // Set the starting planet
+  // Initialize your game elements
+  spacecraft = new Spacecraft();
+  planets.push(new Planet(
+    "Earth",
+    color(0, 255, 0),
+    100,
+    200,
+    "Home planet of humans.",
+    generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
+    "Earth"
+  ));
+  planets.push(new Planet(
+    "Mars",
+    color(255, 0, 0),
+    500,
+    400,
+    "Known as the Red Planet.",
+    generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
+    "Mars"
+  ));
+  planets.push(new Planet(
+    "Jupiter",
+    color(255, 255, 0),
+    300,
+    100,
+    "Largest planet in our solar system.",
+    generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
+    "Jupiter"
+  ));
+  planets.push(new Planet(
+    "Saturn",
+    color(255, 165, 0),
+    700,
+    300,
+    "Known for its stunning ring system.",
+    generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
+    "Saturn"
+  ));
+  // Add more planets as needed
+  totalPlanets = planets.length;
   currentPlanet = planets[0];
-
-  // Create info panel
-  infoPanel = new InfoPanel();
-
-  // Set up audio analysis
-  amplitude = new p5.Amplitude();
-
-  // Set up text generation
-  generateText();
 }
 
 function draw() {
   background(0);
 
-  // Update and display player spaceship
-  player.update();
-  player.display();
+  if (gameStarted) {
+    // Update and display game elements
+    spacecraft.update();
+    spacecraft.display();
 
-  // Display and check interactions with planets
-  for (let planet of planets) {
-    planet.display();
-    if (planet.contains(player.x, player.y)) {
-      infoPanel.display(planet);
-      currentPlanet = planet;
+    // Display current story text
+    fill(255);
+    textSize(18);
+    textAlign(LEFT, TOP);
+    text(storyTexts[currentStoryIndex], 20, 20);
+
+    // Display points count while visiting planets
+    text(`Points: ${points} out of ${totalPlanets}`, 20, 50);
+
+    // Display planets
+    for (let planet of planets) {
+      planet.display();
     }
+
+    // Check if the user has visited all planets
+    if (points === totalPlanets && !quizMode) {
+      quizMode = true;
+      startQuiz();
+    }
+
+    // Check if the quiz question is displayed
+    if (quizMode && !quizAnswered) {
+      // Display quiz question
+      fill(255);
+      textSize(18);
+      textAlign(LEFT, TOP);
+      text(currentPlanet.quizQuestion, 20, height - 140);
+
+      // Display answer choices
+      let choices = currentPlanet.answerChoices;
+      for (let i = 0; i < choices.length; i++) {
+        text(`${i + 1}. ${choices[i]}`, 20, height - 100 + i * 30);
+      }
+
+      // Display user input
+      text("Your Answer: " + userAnswer, 20, height - 50);
+    }
+
+    // Check if the text timer has elapsed, and move to the next piece of text
+    if (millis() - textTimer > textDuration) {
+      currentStoryIndex++;
+      textTimer = millis();
+    }
+  } else {
+    // Display game start message
+    fill(255);
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Press Enter to Start", width / 2, height / 2);
   }
-
-  // Display zoom level
-  textSize(16);
-  fill(255);
-  text("Zoom Level: " + zoomLevel.toFixed(2), 20, 20);
-
-  // Display interactive audio visualization
-  displayAudioVisualization();
-
-  // Display generated text
-  displayGeneratedText();
-}
-
-function mouseWheel(event) {
-  // Zoom in/out when scrolling
-  zoomLevel += event.delta * 0.01;
-  zoomLevel = constrain(zoomLevel, 0.5, 2);
 }
 
 function keyPressed() {
-  // Control spaceship movement with arrow keys
-  if (keyCode === UP_ARROW) {
-    player.boost();
-  } else if (keyCode === RIGHT_ARROW) {
-    player.rotate(0.1);
-  } else if (keyCode === LEFT_ARROW) {
-    player.rotate(-0.1);
+  if (keyCode === ENTER && !gameStarted) {
+    gameStarted = true;
+    currentStoryIndex++;
+    textTimer = millis(); // Start the text timer
+  } else if (keyCode === ENTER && quizMode && !quizAnswered) {
+    // Check the user's answer when Enter is pressed during the quiz
+    checkAnswer();
+  } else if (keyCode === BACKSPACE && quizMode && !quizAnswered) {
+    // Allow the user to delete the last character in their answer
+    userAnswer = userAnswer.slice(0, -1);
   }
 }
 
-function mousePressed() {
-  // Toggle play/pause for the audio
-  if (audio.isPlaying()) {
-    audio.pause();
-  } else {
-    audio.play();
+function keyTyped() {
+  if (quizMode && !quizAnswered) {
+    // Append the typed character to the user's answer
+    userAnswer += key;
   }
 }
 
-// Define the Spaceship class
-class Spaceship {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.angle = 0;
-    this.speed = 0;
+// Define your Spacecraft class
+class Spacecraft {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+    this.speed = 8; // Increased speed
   }
 
   update() {
-    // Move the spaceship based on speed and angle
-    this.x += this.speed * cos(this.angle);
-    this.y += this.speed * sin(this.angle);
+    // Implement spacecraft movement logic
+    if (keyIsDown(LEFT_ARROW)) {
+      this.x -= this.speed;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.x += this.speed;
+    }
+    if (keyIsDown(UP_ARROW)) {
+      this.y -= this.speed;
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      this.y += this.speed;
+    }
 
-    // Apply friction to slow down the spaceship
-    this.speed *= 0.98;
-
-    // Wrap around the screen
-    this.x = (this.x + width) % width;
-    this.y = (this.y + height) % height;
+    // Check if spacecraft reaches a planet
+    for (let planet of planets) {
+      if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
+        currentPlanet = planet;
+        if (!planet.visited) {
+          points++;
+          planet.visited = true;
+          displayFact(planet.fact);
+        }
+      }
+    }
   }
 
   display() {
-    // Draw the spaceship
+    // Implement spacecraft drawing logic
     fill(255);
-    stroke(255);
-    push();
-    translate(this.x, this.y);
-    rotate(this.angle);
-    triangle(0, -12, -8, 12, 8, 12);
-    pop();
-  }
-
-  boost() {
-    // Boost the speed of the spaceship
-    this.speed += 0.5;
-  }
-
-  rotate(angle) {
-    // Rotate the spaceship
-    this.angle += angle;
+    ellipse(this.x, this.y, 30, 30);
   }
 }
 
-// Define the Planet class
+// Define your Planet class
 class Planet {
-  constructor(x, y, name, description, imageFileName) {
+  constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
+    this.name = name;
+    this.color = col;
     this.x = x;
     this.y = y;
-    this.name = name;
-    this.description = description;
-    this.image = loadImage(imageFileName);
+    this.fact = fact;
+    this.quizQuestion = quizQuestion;
+    this.correctAnswer = correctAnswer.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+    this.answerChoices = generateShuffledChoices([correctAnswer, ...generateIncorrectAnswers(2, name)]);
+    this.visited = false;
   }
 
   display() {
-    // Draw the planet
-    imageMode(CENTER);
-    image(this.image, this.x, this.y, 50, 50);
-  }
+    // Implement planet drawing logic
+    fill(this.color);
+    ellipse(this.x, this.y, 100, 100);
 
-  contains(px, py) {
-    // Check if a point is inside the planet
-    let d = dist(px, py, this.x, this.y);
-    return d < 25;
-  }
-}
-
-// Define the InfoPanel class
-class InfoPanel {
-  display(planet) {
-    // Display information about the planet in an info panel
     fill(255);
-    rect(200, 20, 400, 100);
     textSize(16);
-    fill(0);
-    text(planet.name, 220, 40);
-    textSize(12);
-    text(planet.description, 220, 60);
+    textAlign(CENTER, CENTER);
+    text(this.name, this.x, this.y);
   }
 }
 
-// Define functions for audio visualization
-function displayAudioVisualization() {
-  // Display audio visualization code here
-  let level = amplitude.getLevel();
-  let size = map(level, 0, 1, 10, 200);
-  fill(255, 0, 0);
-  ellipse(width - 50, height - 50, size, size);
+function displayFact(fact) {
+  // Display the fact about the current planet
+  storyTexts.push(`You earned a point! ${fact}`);
 }
 
-// Define functions for text generation
-function generateText() {
-  // Implement your text generation code here
-  // This is a placeholder. Replace with actual text generation logic.
-  generatedText = "This is a placeholder for generated text.";
+function startQuiz() {
+  // Display quiz introduction
+  storyTexts.push("Congratulations! You've visited all planets and earned points.");
+  storyTexts.push("Now, it's time for a quiz. Use the number keys to select your answer.");
+  storyTexts.push("Press Enter to submit your answer.");
+  storyTexts.push(currentPlanet.quizQuestion);
 }
 
-function displayGeneratedText() {
-  // Display generated text code here
-  fill(255);
-  textSize(14);
-  text(generatedText, 20, height - 50, width - 40, 100);
+function checkAnswer() {
+  quizAnswered = true;
+  let selectedChoice = parseInt(userAnswer) - 1; // Convert to zero-based index
+  if (!isNaN(selectedChoice) && selectedChoice >= 0 && selectedChoice < currentPlanet.answerChoices.length) {
+    if (currentPlanet.answerChoices[selectedChoice].toLowerCase() === currentPlanet.correctAnswer) {
+      points++; // Correct answer earns a point
+      storyTexts.push("Correct! You earned another point!");
+    } else {
+      storyTexts.push(`Incorrect. The correct answer is "${currentPlanet.correctAnswer}".`);
+    }
+    storyTexts.push(`You now have ${points} points.`);
+  } else {
+    storyTexts.push("Invalid choice. Please use the number keys to select your answer.");
+  }
+  userAnswer = ""; // Reset user's answer
+}
+
+function generateMultipleChoiceQuestion(question, choices, correctIndex) {
+  let shuffledChoices = generateShuffledChoices(choices);
+  let correctAnswer = shuffledChoices[correctIndex - 1];
+  return `${question} (${shuffledChoices.join(", ")})`;
+}
+
+function generateShuffledChoices(choices) {
+  let shuffled = choices.slice();
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function generateIncorrectAnswers(count, currentPlanetName) {
+  // Generate random incorrect answers for the quiz, using names of other planets
+  let incorrectAnswers = [];
+  for (let i = 0; i < count; i++) {
+    let randomPlanetName;
+    do {
+      randomPlanetName = getRandomPlanetName();
+    } while (randomPlanetName === currentPlanetName);
+
+    incorrectAnswers.push(randomPlanetName);
+  }
+  return incorrectAnswers;
+}
+
+function getRandomPlanetName() {
+  // Return a random planet name
+  const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
+  return planetNames[Math.floor(Math.random() * planetNames.length)];
 }
