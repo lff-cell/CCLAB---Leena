@@ -9,7 +9,7 @@ let generatedText = "This is a placeholder for generated text.";
 
 function preload() {
   // Load your audio file
-  audio = loadSound("offgun.mp3");
+  audio = loadSound("path/to/offgun.mp3");
 }
 
 function setup() {
@@ -175,21 +175,4 @@ class InfoPanel {
 function displayAudioVisualization() {
   // Display audio visualization code here
   let level = amplitude.getLevel();
-  let size = map(level, 0, 1, 10, 200);
-  fill(255, 0, 0);
-  ellipse(width - 50, height - 50, size, size);
-}
-
-// Define functions for text generation
-function generateText() {
-  // Implement your text generation code here
-  // This is a placeholder. Replace with actual text generation logic.
-  generatedText = "This is a placeholder for generated text.";
-}
-
-function displayGeneratedText() {
-  // Display generated text code here
-  fill(255);
-  textSize(14);
-  text(generatedText, 20, height - 50, width - 40, 100);
-}
+  let size = map(level, 0, 1, 
