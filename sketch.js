@@ -9,6 +9,8 @@ let quizMode = false;
 let quizAnswered = false;
 let userAnswer = "";
 let quizStarted = false;
+let quizScore = 0;
+let storyTextFinished = false;
 
 
 let storyTexts = [
@@ -25,6 +27,7 @@ let textTimer = 0;
 const textDuration = 2000; // Time duration for each piece of text in milliseconds
 
 let startQuizButton; // ADDED: New button for starting the quiz
+let congratulationsScreen = false;
 
 function setup() {
   createCanvas(800, 600);
@@ -88,7 +91,7 @@ function draw() {
     fill(255);
     textSize(18);
     textAlign(LEFT, TOP);
-    text(storyTexts[currentStoryIndex], 20, 20);
+    text(storyTexts[currentStoryIndex], width/2, 20);
 
     // Display points count while visiting planets
     text(`Points: ${points} out of ${totalPlanets}`, 20, 50);
@@ -107,22 +110,26 @@ function draw() {
     if (millis() - textTimer > textDuration) {
       currentStoryIndex++;
       textTimer = millis();
+      storyTextFinished = true;
     }
-  } else if (quizStarted) { // Check if the quiz has started
-    // Display quiz question
+  } else if (quizStarted) { // Check if the quiz         
     fill(255);
     textSize(18);
-    textAlign(LEFT, TOP);
-    text(currentPlanet.quizQuestion, 20, height - 140);
+    textAlign(CENTER, TOP);
+    text(currentPlanet.quizQuestion, width / 2, height / 4);
 
-    // Display answer choices
     let choices = currentPlanet.answerChoices;
     for (let i = 0; i < choices.length; i++) {
-      text(`${i + 1}. ${choices[i]}`, 20, height - 100 + i * 30);
+      text(`${i + 1}. ${choices[i]}`, width / 2, height / 2 + i * 30);
     }
 
-    // Display user input
-    text("Your Answer: " + userAnswer, 20, height - 50);
+    text(`Your Answer: ${userAnswer}`, width / 2, height / 1.2);
+    text(`Quiz Score: ${quizScore} out of ${totalPlanets}`, width / 2, height / 1.1);
+  } else if (congratulationsScreen) {
+    fill(255);
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("Congratulations! You passed the quiz!", width / 2, height / 2);    
   } else { // Display game start message
     fill(255);
     textSize(32);
@@ -138,18 +145,29 @@ function keyPressed() {
     spacecraft.setGameStarted(true); // Set gameStarted to true for the spacecraft
     currentStoryIndex++;
     textTimer = millis(); // Start the text timer
+    storyTextFinished = false;
   } else if (keyCode === ENTER && quizMode && !quizAnswered) {
     // Check the user's answer when Enter is pressed during the quiz
     checkAnswer();
   } else if (keyCode === BACKSPACE && quizMode && !quizAnswered) {
     // Allow the user to delete the last character in their answer
     userAnswer = userAnswer.slice(0, -1);
+  } else if (quizMode && !quizAnswered && storyTextFinished) {
+    // Capture typed characters for the user's answer during the quiz
+    userAnswer += key;
   }
 }
 
 function keyTyped() {
-  if (quizMode && !quizAnswered) {
+  if(!storyTextFinished){
+    return
+  //if (quizMode && !quizAnswered && storyTextFinished) {
     // Append the typed character to the user's answer
+    //userAnswer += key;
+  }
+
+  if (quizMode && !quizAnswered) {
+    // Capture typed characters for the user's answer during the quiz
     userAnswer += key;
   }
 }
@@ -239,18 +257,19 @@ function displayFact(fact) {
 
 function startQuiz() {
   // Hide all elements except the quiz
+  quizStarted = true;
   gameStarted = false;
   startQuizButton.hide();
-  storyTexts = []; // Clear existing story texts
+  storyTexts = [];
+
+  // Shuffle the order of planets for random questions
+  planets = shuffle(planets);
 
   // Display quiz introduction
   storyTexts.push("Congratulations! You've visited all planets and earned points.");
   storyTexts.push("Now, it's time for a quiz. Use the number keys to select your answer.");
   storyTexts.push("Press Enter to submit your answer.");
-  storyTexts.push(currentPlanet.quizQuestion);
-
-  quizMode = true; // Start the quiz
-  quizStarted = true; // Set quizStarted to true
+  nextQuestion();
 }
 
 
@@ -269,6 +288,37 @@ function checkAnswer() {
     storyTexts.push("Invalid choice. Please use the number keys to select your answer.");
   }
   userAnswer = ""; // Reset user's answer
+  if (points === totalPlanets) {
+    quizStarted = false;
+    if (points / totalPlanets > 0.7) {
+      congratulationsScreen = true;
+    }
+  } else {
+    nextQuestion();
+  }
+}
+
+function nextQuestion() {
+  if (planets.length > 0) {
+    currentPlanet = planets.pop();
+    quizAnswered = false;
+    userAnswer = "";
+  } else {
+    // All questions asked
+    quizStarted = false;
+    if (points / totalPlanets > 0.7) {
+      congratulationsScreen = true;
+    }
+  }
+}
+
+function shuffle(array) {
+  let shuffled = array.slice();
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 function generateMultipleChoiceQuestion(question, choices, correctIndex) {
