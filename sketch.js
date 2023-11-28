@@ -8,6 +8,8 @@ let totalPlanets = 0;
 let quizMode = false;
 let quizAnswered = false;
 let userAnswer = "";
+let quizStarted = false;
+
 
 let storyTexts = [
   "Welcome to the Space Exploration Game!",
@@ -77,7 +79,7 @@ function setup() {
 function draw() {
   background(0);
 
-  if (gameStarted) {
+  if (gameStarted && !quizStarted) { // Check if the game is started but quiz hasn't started
     // Update and display game elements
     spacecraft.update();
     spacecraft.display();
@@ -98,25 +100,7 @@ function draw() {
 
     // Check if the user has visited all planets
     if (points === totalPlanets && !quizMode) {
-      startQuizButton.show(); // ADDED: Show the "Start Quiz" button
-    }
-
-    // Check if the quiz question is displayed
-    if (quizMode && !quizAnswered) {
-      // Display quiz question
-      fill(255);
-      textSize(18);
-      textAlign(LEFT, TOP);
-      text(currentPlanet.quizQuestion, 20, height - 140);
-
-      // Display answer choices
-      let choices = currentPlanet.answerChoices;
-      for (let i = 0; i < choices.length; i++) {
-        text(`${i + 1}. ${choices[i]}`, 20, height - 100 + i * 30);
-      }
-
-      // Display user input
-      text("Your Answer: " + userAnswer, 20, height - 50);
+      startQuizButton.show();
     }
 
     // Check if the text timer has elapsed, and move to the next piece of text
@@ -124,14 +108,29 @@ function draw() {
       currentStoryIndex++;
       textTimer = millis();
     }
-  } else {
-    // Display game start message
+  } else if (quizStarted) { // Check if the quiz has started
+    // Display quiz question
+    fill(255);
+    textSize(18);
+    textAlign(LEFT, TOP);
+    text(currentPlanet.quizQuestion, 20, height - 140);
+
+    // Display answer choices
+    let choices = currentPlanet.answerChoices;
+    for (let i = 0; i < choices.length; i++) {
+      text(`${i + 1}. ${choices[i]}`, 20, height - 100 + i * 30);
+    }
+
+    // Display user input
+    text("Your Answer: " + userAnswer, 20, height - 50);
+  } else { // Display game start message
     fill(255);
     textSize(32);
     textAlign(CENTER, CENTER);
     text("Press Enter to Start", width / 2, height / 2);
   }
 }
+
 
 function keyPressed() {
   if (keyCode === ENTER && !gameStarted) {
@@ -239,9 +238,11 @@ function displayFact(fact) {
 }
 
 function startQuiz() {
-  // Hide the "Start Quiz" button
+  // Hide all elements except the quiz
+  gameStarted = false;
   startQuizButton.hide();
-  
+  storyTexts = []; // Clear existing story texts
+
   // Display quiz introduction
   storyTexts.push("Congratulations! You've visited all planets and earned points.");
   storyTexts.push("Now, it's time for a quiz. Use the number keys to select your answer.");
@@ -249,7 +250,9 @@ function startQuiz() {
   storyTexts.push(currentPlanet.quizQuestion);
 
   quizMode = true; // Start the quiz
+  quizStarted = true; // Set quizStarted to true
 }
+
 
 function checkAnswer() {
   quizAnswered = true;
