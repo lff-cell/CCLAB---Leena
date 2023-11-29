@@ -42,7 +42,7 @@ function setup() {
     color(0, 255, 0),
     100,
     200,
-    "Home planet of humans.",
+    "Earth: Third planet from sun.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
@@ -51,7 +51,7 @@ function setup() {
     color(255, 0, 0),
     500,
     400,
-    "Known as the Red Planet.",
+    "Mars: Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
@@ -60,7 +60,7 @@ function setup() {
     color(255, 255, 0),
     300,
     100,
-    "Largest planet in our solar system.",
+    "Jupiter: Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
@@ -69,7 +69,7 @@ function setup() {
     color(255, 165, 0),
     700,
     300,
-    "Known for its stunning ring system.",
+    "Saturn: Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
@@ -78,7 +78,7 @@ function setup() {
     color(0, 0, 255),
     600,
     200,
-    "Seventh planet from the Sun.",
+    "Uranus: Seventh planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
@@ -439,7 +439,5 @@ function getRandomPlanetName() {
   const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   return planetNames[Math.floor(Math.random() * planetNames.length)];
 }
-
-
 
 
