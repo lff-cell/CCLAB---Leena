@@ -236,6 +236,7 @@ class Spacecraft {
     this.y = height / 2;
     this.speed = 8; // Increased speed
     this.gameStarted = false; // New property to track game state
+    this.image = loadImage("spacecraft.png"); 
   }
 
   update() {
@@ -271,8 +272,7 @@ class Spacecraft {
 
   display() {
     // Implement spacecraft drawing logic
-    fill(255);
-    ellipse(this.x, this.y, 30, 30);
+    image(this.image, this.x, this.y, 50, 50); 
   }
 
   // Add a new method to set the gameStarted property
