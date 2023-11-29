@@ -42,7 +42,7 @@ function setup() {
     color(0, 255, 0),
     100,
     200,
-    "Earth: Home planet of humans.",
+    "Home planet of humans.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
@@ -51,7 +51,7 @@ function setup() {
     color(255, 0, 0),
     500,
     400,
-    "Mars: Known as the Red Planet.",
+    "Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
@@ -60,7 +60,7 @@ function setup() {
     color(255, 255, 0),
     300,
     100,
-    "Jupiter: Largest planet in our solar system.",
+    "Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
@@ -69,7 +69,7 @@ function setup() {
     color(255, 165, 0),
     700,
     300,
-    "Saturn: Known for its stunning ring system.",
+    "Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
@@ -78,7 +78,7 @@ function setup() {
     color(0, 0, 255),
     600,
     200,
-    "Uranus: Seventh planet from the Sun.",
+    "Seventh planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
@@ -236,8 +236,6 @@ class Spacecraft {
     this.y = height / 2;
     this.speed = 8; // Increased speed
     this.gameStarted = false; // New property to track game state
-    this.img = loadImage("spacecraft.png"); // Load the spacecraft image
-
   }
 
   update() {
@@ -273,8 +271,8 @@ class Spacecraft {
 
   display() {
     // Implement spacecraft drawing logic
-    imageMode(CENTER);
-    image(this.img, this.x, this.y, 30, 30);
+    fill(255);
+    ellipse(this.x, this.y, 30, 30);
   }
 
   // Add a new method to set the gameStarted property
