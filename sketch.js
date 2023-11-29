@@ -11,6 +11,8 @@ let userAnswer = "";
 let quizStarted = false;
 let quizScore = 0;
 let storyTextFinished = false;
+let stars = [];
+const numStars = 200;
 
 
 
@@ -71,6 +73,15 @@ function setup() {
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: random(width),
+      y: random(height),
+      size: random(1, 3),
+      speed: random(1, 3)
+    });
+  }
+
   // Add more planets as needed
   totalPlanets = planets.length;
   currentPlanet = planets[0];
@@ -89,6 +100,7 @@ function draw() {
     spacecraft.update();
     spacecraft.display();
 
+
     // Display current story text
     fill(255);
     textSize(18);
@@ -102,6 +114,8 @@ function draw() {
     for (let planet of planets) {
       planet.display();
     }
+    drawStars();
+
 
     // Check if the user has visited all planets
     if (points === totalPlanets && !quizMode) {
@@ -117,6 +131,8 @@ function draw() {
   } else if (quizStarted) { // Check if the quiz         
     fill(255);
     textSize(18);
+    drawStars();
+
     textAlign(CENTER, TOP);
     text(currentPlanet.quizQuestion, width / 2, height / 4);
 
@@ -136,8 +152,11 @@ function draw() {
   } else if (congratulationsScreen) {
     fill(255);
     textSize(32);
+
     textAlign(CENTER, CENTER);
     text("Congratulations! You passed the quiz!", width / 2, height / 2); 
+    drawStars();
+
   } else if (failureScreen) {
     fill(255);
     textSize(32);
@@ -148,9 +167,25 @@ function draw() {
     textSize(32);
     textAlign(CENTER, CENTER);
     text("Press Enter to Start", width / 2, height / 2);
+    drawStars();
+
   }
 }
+function drawStars() {
+  fill(255);
 
+  for (let i = 0; i < numStars; i++) {
+    ellipse(stars[i].x, stars[i].y, stars[i].size, stars[i].size);
+
+    // Move stars horizontally
+    stars[i].x += stars[i].speed;
+
+    // Reset star position if it goes beyond canvas width
+    if (stars[i].x > width) {
+      stars[i].x = 0;
+    }
+  }
+}
 
 function keyPressed() {
   if (keyCode === ENTER && !gameStarted) {
@@ -395,4 +430,5 @@ function getRandomPlanetName() {
   const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   return planetNames[Math.floor(Math.random() * planetNames.length)];
 }
+
 
