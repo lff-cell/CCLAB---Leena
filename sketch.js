@@ -33,13 +33,23 @@ let startQuizButton; // ADDED: New button for starting the quiz
 let congratulationsScreen = false;
 let failureScreen = false;
 
+function preload() {
+    // Load images in the preload function
+    spacecraftImage = loadImage("spacecraft.png");
+    earthImage = loadImage("earthpng.png");
+    marsImage = loadImage("marspng.png");
+    jupiterImage = loadImage("jupiterpng.png");
+    saturnImage = loadImage("saturnpng.png");
+    uranusImage = loadImage("uranuspng.png");
+  }
+
 function setup() {
   createCanvas(800, 600);
   // Initialize your game elements
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    "earthpng.jpg",
+    earthImage,
     100,
     200,
     "Earth: Home planet of humans.",
@@ -48,7 +58,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Mars",
-    "marspng.jpg",
+    marsImage,
     500,
     400,
     "Mars: Known as the Red Planet.",
@@ -57,7 +67,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Jupiter",
-    "jupterpng.jpg",
+    jupiterImage,
     300,
     100,
     "Jupiter: Largest planet in our solar system.",
@@ -66,7 +76,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Saturn",
-    "saturnpng.jpg",
+    saturnImage,
     700,
     300,
     "Saturn: Known for its stunning ring system.",
@@ -75,7 +85,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Uranus",
-    "uranuspng.jpg",
+    uranusImage,
     600,
     200,
     "Uranus: Seventh planet from the Sun.",
@@ -236,7 +246,7 @@ class Spacecraft {
     this.y = height / 2;
     this.speed = 8; // Increased speed
     this.gameStarted = false; // New property to track game state
-    this.img = loadImage("spacecraft.jpg"); // Load the spacecraft image
+    this.img = loadImage("spacecraft.jpg");// Load the spacecraft image
   }
 
   update() {
@@ -284,7 +294,7 @@ class Spacecraft {
 
 // Define your Planet class
 class Planet {
-  constructor(name, imgFileName, x, y, fact, quizQuestion, correctAnswer) {
+  constructor(name, img, x, y, fact, quizQuestion, correctAnswer) {
     this.name = name;
     this.color = col;
     this.x = x;
@@ -294,7 +304,7 @@ class Planet {
     this.correctAnswer = correctAnswer.toLowerCase(); // Convert to lowercase for case-insensitive comparison
     this.answerChoices = generateShuffledChoices([correctAnswer, ...generateIncorrectAnswers(2, name)]);
     this.visited = false;
-    this.img = loadImage(imgFileName);
+    this.img = img;
   }
 
   display() {
