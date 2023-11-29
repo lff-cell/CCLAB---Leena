@@ -13,6 +13,7 @@ let quizScore = 0;
 let storyTextFinished = false;
 
 
+
 let storyTexts = [
   "Welcome to the Space Exploration Game!",
   "You are on a mission to explore distant planets.",
@@ -28,6 +29,7 @@ const textDuration = 2000; // Time duration for each piece of text in millisecon
 
 let startQuizButton; // ADDED: New button for starting the quiz
 let congratulationsScreen = false;
+let failureScreen = false;
 
 function setup() {
   createCanvas(800, 600);
@@ -120,7 +122,13 @@ function draw() {
 
     let choices = currentPlanet.answerChoices;
     for (let i = 0; i < choices.length; i++) {
-      text(`${i + 1}. ${choices[i]}`, width / 2, height / 2 + i * 30);
+      let button = createButton(`${i + 1}. ${choices[i]}`);
+      button.position(width / 2 - 50, height / 2 + i * 40);
+      button.mousePressed(() => {
+        if (!quizAnswered) {
+          checkAnswer(i);
+        }
+      });
     }
 
     text(`Your Answer: ${userAnswer}`, width / 2, height / 1.2);
@@ -129,7 +137,12 @@ function draw() {
     fill(255);
     textSize(32);
     textAlign(CENTER, CENTER);
-    text("Congratulations! You passed the quiz!", width / 2, height / 2);    
+    text("Congratulations! You passed the quiz!", width / 2, height / 2); 
+  } else if (failureScreen) {
+    fill(255);
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text("I'm sorry! You failed the quiz!", width / 2, height / 2); 
   } else { // Display game start message
     fill(255);
     textSize(32);
@@ -159,9 +172,9 @@ function keyPressed() {
 }
 
 function keyTyped() {
-  if(!storyTextFinished){
-    return
-  //if (quizMode && !quizAnswered && storyTextFinished) {
+  //if(!storyTextFinished){
+    //return
+  if (quizMode && !quizAnswered && storyTextFinished) {
     // Append the typed character to the user's answer
     //userAnswer += key;
   }
@@ -289,29 +302,39 @@ function startQuiz() {
   nextQuestion();
 }
 
-
-function checkAnswer() {
+function checkAnswer(selectedChoice) {
   quizAnswered = true;
-  let selectedChoice = parseInt(userAnswer) - 1; // Convert to zero-based index
-  if (!isNaN(selectedChoice) && selectedChoice >= 0 && selectedChoice < currentPlanet.answerChoices.length) {
+  if (selectedChoice >= 0 && selectedChoice < currentPlanet.answerChoices.length) {
     if (currentPlanet.answerChoices[selectedChoice].toLowerCase() === currentPlanet.correctAnswer) {
-      points++; // Correct answer earns a point
+      quizScore++;
       storyTexts.push("Correct! You earned another point!");
     } else {
       storyTexts.push(`Incorrect. The correct answer is "${currentPlanet.correctAnswer}".`);
     }
-    storyTexts.push(`You now have ${points} points.`);
+    storyTexts.push(`Your current score: ${quizScore} out of ${totalPlanets}`);
   } else {
     storyTexts.push("Invalid choice. Please use the number keys to select your answer.");
   }
-  userAnswer = ""; // Reset user's answer
-  if (points === totalPlanets) {
+  removeButtons();
+
+  if (planets.length > 0) {
+    nextQuestion();
+  } else {
+    // All questions asked
     quizStarted = false;
-    if (points / totalPlanets > 0.7) {
+    if (quizScore / totalPlanets > 0.7) {
       congratulationsScreen = true;
     }
-  } else {
-    nextQuestion();
+    if (quizScore / totalPlanets < 0.7) {
+      failureScreen = true;
+    }
+  }
+}
+
+function removeButtons() {
+  let buttons = selectAll('button');
+  for (let button of buttons) {
+    button.remove();
   }
 }
 
