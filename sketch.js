@@ -253,6 +253,23 @@ class Planet {
 function displayFact(fact) {
   // Display the fact about the current planet
   storyTexts.push(`You earned a point! ${fact}`);
+  
+  // Check if all planets are visited
+  if (points === totalPlanets) {
+    startQuizButton.show();
+  } else {
+    // Move to the next planet
+    nextPlanet();
+  }
+}
+function nextPlanet() {
+  // Find the next unvisited planet
+  currentPlanet = planets.find(planet => !planet.visited);
+
+  // If there are no unvisited planets, start the quiz
+  if (!currentPlanet) {
+    startQuizButton.show();
+  }
 }
 
 function startQuiz() {
@@ -355,3 +372,4 @@ function getRandomPlanetName() {
   const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   return planetNames[Math.floor(Math.random() * planetNames.length)];
 }
+
