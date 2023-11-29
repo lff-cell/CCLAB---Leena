@@ -16,7 +16,6 @@ const numStars = 200;
 
 
 
-
 let storyTexts = [
   "Welcome to the Space Exploration Game!",
   "You are on a mission to explore distant planets.",
@@ -34,52 +33,40 @@ let startQuizButton; // ADDED: New button for starting the quiz
 let congratulationsScreen = false;
 let failureScreen = false;
 
-function preload() {
-  // Load spacecraft image
-  spacecraftImage = loadImage("spacecraft.png");
-
-  // Load planet images
-  earthImage = loadImage("earthpng.jpg");
-  marsImage = loadImage("marspng.jpg");
-  jupiterImage = loadImage("jupiterpng.jpg");
-  saturnImage = loadImage("saturnpng.jpg");
-  uranusImage = loadImage("uranuspng.jpg");
-}
-
 function setup() {
   createCanvas(800, 600);
   // Initialize your game elements
-  spacecraft = new Spacecraft(spacecraftImage);
+  spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    earthImage,
+    color(0, 255, 0),
     100,
     200,
-    "Earth: Third planet from the sun.",
+    "Home planet of humans.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
   planets.push(new Planet(
     "Mars",
-    marsImage,
+    color(255, 0, 0),
     500,
     400,
-    "Mars: Known as the Red Planet.",
+    "Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
   planets.push(new Planet(
     "Jupiter",
-    jupiterImage,
+    color(255, 255, 0),
     300,
     100,
-    "Jupiter: Largest planet in our solar system.",
+    "Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
   planets.push(new Planet(
     "Saturn",
-    saturnImage,
+    color(255, 165, 0),
     700,
     300,
     "Known for its stunning ring system.",
@@ -88,7 +75,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Uranus",
-    uranusImage,
+    color(0, 0, 255),
     600,
     200,
     "Seventh planet from the Sun.",
@@ -249,7 +236,6 @@ class Spacecraft {
     this.y = height / 2;
     this.speed = 8; // Increased speed
     this.gameStarted = false; // New property to track game state
-    this.image = loadImage("spacecraft.png"); 
   }
 
   update() {
@@ -285,7 +271,8 @@ class Spacecraft {
 
   display() {
     // Implement spacecraft drawing logic
-    image(this.image, this.x, this.y, 50, 50); 
+    fill(255);
+    ellipse(this.x, this.y, 30, 30);
   }
 
   // Add a new method to set the gameStarted property
@@ -296,9 +283,9 @@ class Spacecraft {
 
 // Define your Planet class
 class Planet {
-  constructor(name, img, x, y, fact, quizQuestion, correctAnswer) {
+  constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
     this.name = name;
-    this.image = img;
+    this.color = col;
     this.x = x;
     this.y = y;
     this.fact = fact;
@@ -310,7 +297,8 @@ class Planet {
 
   display() {
     // Implement planet drawing logic
-    image(this.image, this.x, this.y, 100, 100);
+    fill(this.color);
+    ellipse(this.x, this.y, 100, 100);
 
     fill(255);
     textSize(16);
