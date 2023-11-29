@@ -316,11 +316,6 @@ class Planet {
   display() {
     // Implement planet drawing logic
     image(this.image, this.x, this.y, 100, 100);
-
-    fill(255);
-    textSize(16);
-    textAlign(CENTER, CENTER);
-    text(this.name, this.x, this.y);
   }
 }
 
