@@ -54,37 +54,37 @@ function preload() {
 function setup() {
   createCanvas(800, 600);
   // Initialize your game elements
-  spacecraft = new Spacecraft();
+  spacecraft = new Spacecraft(spacecraftImage);
   planets.push(new Planet(
     "Earth",
-    "earthpng.jpg",
+    earthImage,
     100,
     200,
-    "Home planet of humans.",
+    "Earth: Third planet from the sun.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
   planets.push(new Planet(
     "Mars",
-    "marspng.jpg",
+    marsImage,
     500,
     400,
-    "Known as the Red Planet.",
+    "Mars: Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
   planets.push(new Planet(
     "Jupiter",
-    "jupiterpng.jpg",
+    jupiterImage,
     300,
     100,
-    "Largest planet in our solar system.",
+    "Jupiter: Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
   planets.push(new Planet(
     "Saturn",
-    "saturnpng.jpg",
+    saturnImage,
     700,
     300,
     "Known for its stunning ring system.",
@@ -93,7 +93,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Uranus",
-    "uranuspng.jpg",
+    uranusImage,
     600,
     200,
     "Seventh planet from the Sun.",
@@ -303,7 +303,7 @@ class Spacecraft {
 class Planet {
   constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
     this.name = name;
-    this.color = col;
+    this.image = img;
     this.x = x;
     this.y = y;
     this.fact = fact;
@@ -315,8 +315,7 @@ class Planet {
 
   display() {
     // Implement planet drawing logic
-    fill(this.color);
-    ellipse(this.x, this.y, 100, 100);
+    image(this.image, this.x, this.y, 100, 100);
 
     fill(255);
     textSize(16);
