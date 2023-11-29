@@ -16,6 +16,7 @@ const numStars = 200;
 
 
 
+
 let storyTexts = [
   "Welcome to the Space Exploration Game!",
   "You are on a mission to explore distant planets.",
@@ -32,6 +33,23 @@ const textDuration = 2000; // Time duration for each piece of text in millisecon
 let startQuizButton; // ADDED: New button for starting the quiz
 let congratulationsScreen = false;
 let failureScreen = false;
+let earthImage;
+let marsImage;
+let jupiterImage;
+let saturnImage;
+let uranusImage;
+
+function preload() {
+  // Load spacecraft image
+  spacecraftImage = loadImage("spacecraft.png");
+
+  // Load planet images
+  earthImage = loadImage("earthpng.jpg");
+  marsImage = loadImage("marspng.jpg");
+  jupiterImage = loadImage("jupiterpng.jpg");
+  saturnImage = loadImage("saturnpng.jpg");
+  uranusImage = loadImage("uranuspng.jpg");
+}
 
 function setup() {
   createCanvas(800, 600);
