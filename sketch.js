@@ -39,7 +39,7 @@ function setup() {
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    color(0, 255, 0),
+    color(50, 205, 50),
     100,
     200,
     "Earth: Third planet from sun.",
@@ -57,7 +57,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Jupiter",
-    color(255, 255, 0),
+    color(255, 215, 0),
     300,
     100,
     "Jupiter: Largest planet in our solar system.",
@@ -231,55 +231,60 @@ function keyTyped() {
 
 // Define your Spacecraft class
 class Spacecraft {
-  constructor() {
-    this.x = width / 2;
-    this.y = height / 2;
-    this.speed = 8; // Increased speed
-    this.gameStarted = false; // New property to track game state
-  }
-
-  update() {
-    // Check if the game has started before allowing the spacecraft to move
-    if (this.gameStarted) {
-      // Implement spacecraft movement logic
-      if (keyIsDown(LEFT_ARROW)) {
-        this.x -= this.speed;
+    constructor() {
+        this.x = width / 2;
+        this.y = height / 2;
+        this.speed = 8;
+        this.gameStarted = false;
+        this.color = color(255, 255, 0); // Yellow color
       }
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.x += this.speed;
-      }
-      if (keyIsDown(UP_ARROW)) {
-        this.y -= this.speed;
-      }
-      if (keyIsDown(DOWN_ARROW)) {
-        this.y += this.speed;
-      }
-
-      // Check if spacecraft reaches a planet
-      for (let planet of planets) {
-        if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
-          currentPlanet = planet;
-          if (!planet.visited) {
-            points++;
-            planet.visited = true;
-            displayFact(planet.fact);
+    
+      update() {
+        if (this.gameStarted) {
+          if (keyIsDown(LEFT_ARROW)) {
+            this.x -= this.speed;
+          }
+          if (keyIsDown(RIGHT_ARROW)) {
+            this.x += this.speed;
+          }
+          if (keyIsDown(UP_ARROW)) {
+            this.y -= this.speed;
+          }
+          if (keyIsDown(DOWN_ARROW)) {
+            this.y += this.speed;
+          }
+    
+          // Check if spacecraft reaches a planet
+          for (let planet of planets) {
+            if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
+              currentPlanet = planet;
+              if (!planet.visited) {
+                points++;
+                planet.visited = true;
+                displayFact(planet.fact);
+              }
+            }
           }
         }
       }
+    
+      display() {
+        // Draw a more visually appealing spacecraft
+        fill(this.color);
+        stroke(255);
+        strokeWeight(.5);
+        ellipse(this.x, this.y, 40, 20); // Spaceship body
+    
+        // Draw thrusters
+        fill(255, 0, 0); // Red color
+        triangle(this.x - 20, this.y + 10, this.x - 30, this.y + 20, this.x - 30, this.y); // Left thruster
+        triangle(this.x + 20, this.y + 10, this.x + 30, this.y + 20, this.x + 30, this.y); // Right thruster
+      }
+    
+      setGameStarted(value) {
+        this.gameStarted = value;
+      }
     }
-  }
-
-  display() {
-    // Implement spacecraft drawing logic
-    fill(255);
-    ellipse(this.x, this.y, 30, 30);
-  }
-
-  // Add a new method to set the gameStarted property
-  setGameStarted(value) {
-    this.gameStarted = value;
-  }
-}
 
 // Define your Planet class
 class Planet {
