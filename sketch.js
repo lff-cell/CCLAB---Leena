@@ -29,7 +29,7 @@ let currentStoryIndex = 0;
 let textTimer = 0;
 const textDuration = 2000; // Time duration for each piece of text in milliseconds
 
-let startQuizButton; // ADDED: New button for starting the quiz
+let startQuizButton; // New button for starting the quiz
 let congratulationsScreen = false;
 let failureScreen = false;
 
@@ -300,7 +300,7 @@ class Planet {
     fill(this.color);
     ellipse(this.x, this.y, 100, 100);
 
-    fill(255);
+    fill(0);
     textSize(16);
     textAlign(CENTER, CENTER);
     text(this.name, this.x, this.y);
