@@ -39,7 +39,7 @@ function setup() {
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    color(0, 255, 0),
+    "earthpng.jpg",
     100,
     200,
     "Home planet of humans.",
@@ -48,7 +48,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Mars",
-    color(255, 0, 0),
+    "marspng.jpg",
     500,
     400,
     "Known as the Red Planet.",
@@ -57,7 +57,7 @@ function setup() {
   ));
   planets.push(new Planet(
     "Jupiter",
-    color(255, 255, 0),
+    "jupiterpng.jpg",
     300,
     100,
     "Largest planet in our solar system.",
@@ -66,12 +66,21 @@ function setup() {
   ));
   planets.push(new Planet(
     "Saturn",
-    color(255, 165, 0),
+    "saturnpng.jpg",
     700,
     300,
     "Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
+  ));
+  planets.push(new Planet(
+    "Uranus",
+    "uranuspng.jpg",
+    600,
+    200,
+    "Seventh planet from the Sun.",
+    generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
+    "Uranus"
   ));
   for (let i = 0; i < numStars; i++) {
     stars.push({
