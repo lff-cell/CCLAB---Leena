@@ -39,46 +39,46 @@ function setup() {
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    color(0, 255, 0),
+    "earthpng.jpg",
     100,
     200,
-    "Home planet of humans.",
+    "Earth: Home planet of humans.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
   planets.push(new Planet(
     "Mars",
-    color(255, 0, 0),
+    "marspng.jpg",
     500,
     400,
-    "Known as the Red Planet.",
+    "Mars: Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
   planets.push(new Planet(
     "Jupiter",
-    color(255, 255, 0),
+    "jupterpng.jpg",
     300,
     100,
-    "Largest planet in our solar system.",
+    "Jupiter: Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
   planets.push(new Planet(
     "Saturn",
-    color(255, 165, 0),
+    "saturnpng.jpg",
     700,
     300,
-    "Known for its stunning ring system.",
+    "Saturn: Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
   planets.push(new Planet(
     "Uranus",
-    color(0, 0, 255),
+    "uranuspng.jpg",
     600,
     200,
-    "Seventh planet from the Sun.",
+    "Uranus: Seventh planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
@@ -236,6 +236,7 @@ class Spacecraft {
     this.y = height / 2;
     this.speed = 8; // Increased speed
     this.gameStarted = false; // New property to track game state
+    this.img = loadImage("spacecraft.jpg"); // Load the spacecraft image
   }
 
   update() {
@@ -271,8 +272,8 @@ class Spacecraft {
 
   display() {
     // Implement spacecraft drawing logic
-    fill(255);
-    ellipse(this.x, this.y, 30, 30);
+    imageMode(CENTER);
+    image(this.img, this.x, this.y, 30, 30); 
   }
 
   // Add a new method to set the gameStarted property
@@ -283,7 +284,7 @@ class Spacecraft {
 
 // Define your Planet class
 class Planet {
-  constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
+  constructor(name, imgFileName, x, y, fact, quizQuestion, correctAnswer) {
     this.name = name;
     this.color = col;
     this.x = x;
@@ -293,12 +294,13 @@ class Planet {
     this.correctAnswer = correctAnswer.toLowerCase(); // Convert to lowercase for case-insensitive comparison
     this.answerChoices = generateShuffledChoices([correctAnswer, ...generateIncorrectAnswers(2, name)]);
     this.visited = false;
+    this.img = loadImage(imgFileName);
   }
 
   display() {
     // Implement planet drawing logic
-    fill(this.color);
-    ellipse(this.x, this.y, 100, 100);
+    imageMode(CENTER);
+    image(this.img, this.x, this.y, 100, 100); // Assuming the image size is 100x100
 
     fill(255);
     textSize(16);
