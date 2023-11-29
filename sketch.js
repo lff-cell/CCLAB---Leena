@@ -33,11 +33,6 @@ const textDuration = 2000; // Time duration for each piece of text in millisecon
 let startQuizButton; // ADDED: New button for starting the quiz
 let congratulationsScreen = false;
 let failureScreen = false;
-let earthImage;
-let marsImage;
-let jupiterImage;
-let saturnImage;
-let uranusImage;
 
 function preload() {
   // Load spacecraft image
@@ -54,7 +49,6 @@ function preload() {
 function setup() {
   createCanvas(800, 600);
   // Initialize your game elements
-  spacecraft = new Spacecraft(spacecraftImage);
   spacecraft = new Spacecraft(spacecraftImage);
   planets.push(new Planet(
     "Earth",
@@ -302,7 +296,7 @@ class Spacecraft {
 
 // Define your Planet class
 class Planet {
-  constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
+  constructor(name, img, x, y, fact, quizQuestion, correctAnswer) {
     this.name = name;
     this.image = img;
     this.x = x;
