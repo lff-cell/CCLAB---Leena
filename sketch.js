@@ -277,6 +277,9 @@ class Spacecraft {
             points++;
             planet.visited = true;
             displayFact(planet.fact);
+            for (let i = 0; i < 5; i++){
+              planet.spawnAsteroid();
+            }
           }
         }
       }
@@ -308,6 +311,7 @@ class Planet {
     this.correctAnswer = correctAnswer.toLowerCase();
     this.answerChoices = generateShuffledChoices([correctAnswer, ...generateIncorrectAnswers(2, name)]);
     this.visited = false;
+    this.asteroids = []; // New property to store falling asteroids
   }
 
   display() {
@@ -318,8 +322,46 @@ class Planet {
     textSize(16);
     textAlign(CENTER, CENTER);
     text(this.name, this.x, this.y);
+
+    // Display falling asteroids when the planet is visited
+    if (this.visited) {
+      for (let asteroid of this.asteroids) {
+        asteroid.display();
+        asteroid.fall();
+      }
+    }
+  }
+
+  spawnAsteroid() {
+    // Add a new asteroid to the asteroids array
+    this.asteroids.push(new Asteroid(this.x, this.y));
   }
 }
+
+class Asteroid {
+  constructor(x, y) {
+    this.x = x + random(-50, 50); // Initialize position near the planet
+    this.y = y;
+    this.size = random(5, 20);
+    this.speed = random(2, 5);
+  }
+
+  display() {
+    fill(150); // Customize the color of the asteroids
+    ellipse(this.x, this.y, this.size, this.size);
+  }
+
+  fall() {
+    // Move the asteroid downward
+    this.y += this.speed;
+
+    // Reset the position if it goes below the canvas
+    if (this.y > height) {
+      this.y = 0;
+    }
+  }
+}
+
 
 function displayFact(fact) {
   storyTexts.push(`You earned a point! ${fact}`);
