@@ -41,8 +41,8 @@ function setup() {
   planets.push(new Planet(
     "Earth",
     color(50, 205, 50),
-    100,
-    200,
+    width / 2 + 200 * cos(PI/3),
+    height / 2 + 200 * sin(PI/3),
     "Earth: Third planet from sun.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
@@ -50,8 +50,8 @@ function setup() {
   planets.push(new Planet(
     "Mars",
     color(255, 0, 0),
-    500,
-    400,
+    width / 2 + 200 * cos(2 * PI/3),
+    height / 2 + 200 * sin(2 * PI/3),
     "Mars: Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
@@ -59,8 +59,8 @@ function setup() {
   planets.push(new Planet(
     "Jupiter",
     color(255, 215, 0),
-    300,
-    100,
+    width / 2 + 200 * cos(PI),
+    height / 2 + 200 * sin(PI),
     "Jupiter: Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
@@ -68,8 +68,8 @@ function setup() {
   planets.push(new Planet(
     "Saturn",
     color(255, 165, 0),
-    700,
-    300,
+    width / 2 + 200 * cos(-2 * PI/3),
+    height / 2 + 200 * sin(-2 * PI/3),
     "Saturn: Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
@@ -77,8 +77,8 @@ function setup() {
   planets.push(new Planet(
     "Uranus",
     color(0, 0, 255),
-    600,
-    200,
+    width / 2 + 200 * cos(-PI/3),
+    height / 2 + 200 * sin(-PI/3),
     "Uranus: Seventh planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
@@ -86,8 +86,8 @@ function setup() {
 planets.push(new Planet(
     "Mercury",
     color(192, 192, 192),
-    200,
-    300,
+    width / 2 + 200 * cos(PI/6),
+    height / 2 + 200 * sin(PI/6),
     "Mercury: Closest planet to the Sun.",
     generateMultipleChoiceQuestion("Which planet is the closest to the Sun?", ["Venus", "Mercury", "Mars"], 2),
     "Mercury"
@@ -96,8 +96,8 @@ planets.push(new Planet(
   planets.push(new Planet(
     "Venus",
     color(255, 215, 0),
-    400,
-    500,
+    width / 2 + 200 * cos(5 * PI/6),
+    height / 2 + 200 * sin(5 * PI/6),
     "Venus: Second planet from the Sun.",
     generateMultipleChoiceQuestion("What is the second planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Venus"
@@ -106,8 +106,8 @@ planets.push(new Planet(
   planets.push(new Planet(
     "Neptune",
     color(0, 0, 128),
-    900,
-    600,
+    width / 2 + 200 * cos(-5 * PI/6),
+    height / 2 + 200 * sin(-5 * PI/6),
     "Neptune: Eighth and farthest planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the eighth and farthest from the Sun?", ["Jupiter", "Saturn", "Neptune"], 3),
     "Neptune"
