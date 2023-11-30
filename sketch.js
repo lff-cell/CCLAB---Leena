@@ -35,6 +35,7 @@ let failureScreen = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  fullscreen();
   // Initialize your game elements
   spacecraft = new Spacecraft();
   planets.push(new Planet(
