@@ -147,7 +147,7 @@ function draw() {
     text(storyTexts[currentStoryIndex], width / 2, 20);
 
     // Display points count while visiting planets
-    text(`Points: ${points} out of ${totalPlanets}`, 400, 40);
+    text(`Points: ${points} out of ${totalPlanets}`, 70, 40);
 
     // Display planets
     for (let planet of planets) {
