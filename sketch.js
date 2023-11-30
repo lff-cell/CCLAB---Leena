@@ -40,79 +40,76 @@ function setup() {
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
-    color(50, 205, 50),
-    width / 2 + orbitRadius * cos(PI/6 + 2 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 2 * PI/4),
-    "Earth: Third planet from sun.",
+    color(102, 204, 255),
+    width / 2 + 200 * cos(PI/3),
+    height / 2 + 200 * sin(PI/3),
+    "Earth: Third planet from the sun.",
     generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
   planets.push(new Planet(
     "Mars",
-    color(255, 0, 0),
-    width / 2 + orbitRadius * cos(PI/6 + 3 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 3 * PI/4),
+    color(255, 102, 102),
+    width / 2 + 200 * cos(2 * PI/3),
+    height / 2 + 200 * sin(2 * PI/3),
     "Mars: Known as the Red Planet.",
     generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
   planets.push(new Planet(
     "Jupiter",
-    color(255, 215, 0),
-    width / 2 + orbitRadius * cos(PI/6 + 4 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 4 * PI/4),
+    color(255, 178, 102),
+    width / 2 + 200 * cos(PI),
+    height / 2 + 200 * sin(PI),
     "Jupiter: Largest planet in our solar system.",
     generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
   planets.push(new Planet(
     "Saturn",
-    color(255, 165, 0),
-    width / 2 + orbitRadius * cos(PI/6 + 5 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 5 * PI/4),
+    color(232, 214, 173),
+    width / 2 + 200 * cos(-2 * PI/3),
+    height / 2 + 200 * sin(-2 * PI/3),
     "Saturn: Known for its stunning ring system.",
     generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
   planets.push(new Planet(
     "Uranus",
-    color(0, 0, 255),
-    width / 2 + orbitRadius * cos(PI/6 + 6 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 6 * PI/4),
+    color(173, 216, 230),
+    width / 2 + 200 * cos(-PI/3),
+    height / 2 + 200 * sin(-PI/3),
     "Uranus: Seventh planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
-planets.push(new Planet(
+  planets.push(new Planet(
     "Mercury",
-    color(192, 192, 192),
-    width / 2 + orbitRadius * cos(PI/6),
-    height / 2 + orbitRadius * sin(PI/6),
+    color(169, 169, 169),
+    width / 2 + 200 * cos(PI/6),
+    height / 2 + 200 * sin(PI/6),
     "Mercury: Closest planet to the Sun.",
     generateMultipleChoiceQuestion("Which planet is the closest to the Sun?", ["Venus", "Mercury", "Mars"], 2),
     "Mercury"
   ));
-  
   planets.push(new Planet(
     "Venus",
-    color(255, 215, 0),
-    width / 2 + orbitRadius * cos(PI/6 + PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + PI/4),
+    color(255, 204, 102),
+    width / 2 + 200 * cos(5 * PI/6),
+    height / 2 + 200 * sin(5 * PI/6),
     "Venus: Second planet from the Sun.",
     generateMultipleChoiceQuestion("What is the second planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Venus"
   ));
-  
   planets.push(new Planet(
     "Neptune",
-    color(0, 0, 128),
-    width / 2 + orbitRadius * cos(PI/6 + 7 * PI/4),
-    height / 2 + orbitRadius * sin(PI/6 + 7 * PI/4),
+    color(68, 102, 255),
+    width / 2 + 200 * cos(-5 * PI/6),
+    height / 2 + 200 * sin(-5 * PI/6),
     "Neptune: Eighth and farthest planet from the Sun.",
     generateMultipleChoiceQuestion("Which planet is the eighth and farthest from the Sun?", ["Jupiter", "Saturn", "Neptune"], 3),
     "Neptune"
   ));
-  
   for (let i = 0; i < numStars; i++) {
     stars.push({
       x: random(width),
@@ -148,7 +145,7 @@ function draw() {
     text(storyTexts[currentStoryIndex], width/2, 20);
 
     // Display points count while visiting planets
-    text(`Points: ${points} out of ${totalPlanets}`, width/2, 40);
+    text(`Points: ${points} out of ${totalPlanets}`, 400, 40);
 
     // Display planets
     for (let planet of planets) {
@@ -475,5 +472,3 @@ function getRandomPlanetName() {
   const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   return planetNames[Math.floor(Math.random() * planetNames.length)];
 }
-
-
