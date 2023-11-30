@@ -34,7 +34,7 @@ let congratulationsScreen = false;
 let failureScreen = false;
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(windowWidth, windowHeight);
   // Initialize your game elements
   spacecraft = new Spacecraft();
   planets.push(new Planet(
