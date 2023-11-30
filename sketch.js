@@ -319,29 +319,37 @@ class Spacecraft {
 
 // Define your Planet class
 class Planet {
-  constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
-    this.name = name;
-    this.color = col;
-    this.x = x;
-    this.y = y;
-    this.fact = fact;
-    this.quizQuestion = quizQuestion;
-    this.correctAnswer = correctAnswer.toLowerCase(); // Convert to lowercase for case-insensitive comparison
-    this.answerChoices = generateShuffledChoices([correctAnswer, ...generateIncorrectAnswers(2, name)]);
-    this.visited = false;
-  }
-
-  display() {
-    // Implement planet drawing logic
-    fill(this.color);
-    ellipse(this.x, this.y, 100, 100);
-
-    fill(0);
-    textSize(16);
-    textAlign(CENTER, CENTER);
-    text(this.name, this.x, this.y);
-  }
-}
+    constructor(name, col, x, y, fact, quizQuestion, correctAnswer) {
+    
+        this.initialY = y; // Store the initial y position for reference
+      }
+    
+      display() {
+        // Implement planet drawing logic
+        fill(this.color);
+    
+        // Apply a bouncing or shaking effect when visited
+        if (this.visited) {
+          // Bouncing effect
+          // this.y += Math.sin(frameCount * 0.1) * 2; // Adjust the factor for the bounce height
+    
+          // Shaking effect
+          this.x += random(-2, 2); // Adjust the range for the shaking effect
+          this.y += random(-2, 2); // Adjust the range for the shaking effect
+        } else {
+          // Reset the position if the planet is not visited
+          this.y = this.initialY;
+        }
+    
+        ellipse(this.x, this.y, 100, 100);
+    
+        fill(0);
+        textSize(16);
+        textAlign(CENTER, CENTER);
+        text(this.name, this.x, this.y);
+      }
+    }
+    
 
 function displayFact(fact) {
   // Display the fact about the current planet
