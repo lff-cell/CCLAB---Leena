@@ -83,6 +83,36 @@ function setup() {
     generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
+planets.push(new Planet(
+    "Mercury",
+    color(192, 192, 192),
+    200,
+    300,
+    "Mercury: Closest planet to the Sun.",
+    generateMultipleChoiceQuestion("Which planet is the closest to the Sun?", ["Venus", "Mercury", "Mars"], 2),
+    "Mercury"
+  ));
+  
+  planets.push(new Planet(
+    "Venus",
+    color(255, 215, 0),
+    400,
+    500,
+    "Venus: Second planet from the Sun.",
+    generateMultipleChoiceQuestion("What is the second planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
+    "Venus"
+  ));
+  
+  planets.push(new Planet(
+    "Neptune",
+    color(0, 0, 128),
+    900,
+    600,
+    "Neptune: Eighth and farthest planet from the Sun.",
+    generateMultipleChoiceQuestion("Which planet is the eighth and farthest from the Sun?", ["Jupiter", "Saturn", "Neptune"], 3),
+    "Neptune"
+  ));
+  
   for (let i = 0; i < numStars; i++) {
     stars.push({
       x: random(width),
