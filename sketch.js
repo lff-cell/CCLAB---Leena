@@ -116,8 +116,7 @@ function setup() {
     "Neptune"
   ));
 
-  // ... (your existing planet initialization code)
-
+  totalPlanets = planets.length;
   for (let i = 0; i < numStars; i++) {
     stars.push({
       x: random(width),
