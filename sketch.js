@@ -111,8 +111,8 @@ function setup() {
     color(68, 102, 255),
     width / 2 + 200 * cos(-5 * PI/6),
     height / 2 + 200 * sin(-5 * PI/6),
-    "Neptune: Eighth and farthest planet from the Sun.",
-    generateMultipleChoiceQuestion("Which planet is the eighth and farthest from the Sun?", ["Jupiter", "Saturn", "Neptune"], 3),
+    "Neptune: Has geysers that spew nitrogen gas into space.",
+    generateMultipleChoiceQuestion("Which planet has geysers that spew nitrogen gas into space?", ["Jupiter", "Saturn", "Neptune"], 3),
     "Neptune"
   ));
 
