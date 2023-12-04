@@ -144,8 +144,8 @@ function draw() {
 
     // Display current story text
     fill(255);
-    textSize(25);
-    textAlign(CENTER, TOP);
+    textSize(18);
+    textAlign(CENTER, BOTTOM);
     text(storyTexts[currentStoryIndex], width / 2, 20);
 
     // Display points count while visiting planets
