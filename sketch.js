@@ -48,8 +48,8 @@ function setup() {
     color(102, 204, 255),
     width / 2 + 200 * cos(PI/3),
     height / 2 + 200 * sin(PI/3),
-    "Earth: Third planet from the sun.",
-    generateMultipleChoiceQuestion("What is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
+    "Earth: Has you in it and is the third planet from the sun.",
+    generateMultipleChoiceQuestion("What has you in it and is the third planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
     "Earth"
   ));
   planets.push(new Planet(
@@ -57,8 +57,8 @@ function setup() {
     color(255, 102, 102),
     width / 2 + 200 * cos(2 * PI/3),
     height / 2 + 200 * sin(2 * PI/3),
-    "Mars: Known as the Red Planet.",
-    generateMultipleChoiceQuestion("Which planet is known as the 'Red Planet'?", ["Earth", "Mars", "Jupiter"], 1),
+    "Mars: Olympus Mons, the largest volcano in our solar system, is found on Mars.",
+    generateMultipleChoiceQuestion("Which planet has the largest volcano in our solar system?", ["Earth", "Mars", "Jupiter"], 1),
     "Mars"
   ));
   planets.push(new Planet(
@@ -66,8 +66,8 @@ function setup() {
     color(255, 178, 102),
     width / 2 + 200 * cos(PI),
     height / 2 + 200 * sin(PI),
-    "Jupiter: Largest planet in our solar system.",
-    generateMultipleChoiceQuestion("Which planet is the largest in our solar system?", ["Saturn", "Jupiter", "Neptune"], 2),
+    "Jupiter: Has a strong magnetic field and dozens of moons, including the four largest known as the Galilean moons.",
+    generateMultipleChoiceQuestion("Which planet has the Galilean moons?", ["Saturn", "Jupiter", "Neptune"], 2),
     "Jupiter"
   ));
   planets.push(new Planet(
@@ -75,8 +75,8 @@ function setup() {
     color(232, 214, 173),
     width / 2 + 200 * cos(-2 * PI/3),
     height / 2 + 200 * sin(-2 * PI/3),
-    "Saturn: Known for its stunning ring system.",
-    generateMultipleChoiceQuestion("Which planet is known for its stunning ring system?", ["Saturn", "Uranus", "Mars"], 1),
+    "Saturn: It has a low density, and if you could find a bathtub big enough, would float in water.",
+    generateMultipleChoiceQuestion("Which planet could float in water if given the opportunityy?", ["Saturn", "Uranus", "Mars"], 1),
     "Saturn"
   ));
   planets.push(new Planet(
@@ -84,8 +84,8 @@ function setup() {
     color(173, 216, 230),
     width / 2 + 200 * cos(-PI/3),
     height / 2 + 200 * sin(-PI/3),
-    "Uranus: Seventh planet from the Sun.",
-    generateMultipleChoiceQuestion("Which planet is the seventh from the Sun?", ["Venus", "Mars", "Uranus"], 3),
+    "Uranus:  Known as an 'ice giant' because of its composition, which includes water, ammonia, and methane.",
+    generateMultipleChoiceQuestion("Which planet is known as an ice giant?", ["Venus", "Mars", "Uranus"], 3),
     "Uranus"
   ));
   planets.push(new Planet(
@@ -93,8 +93,8 @@ function setup() {
     color(169, 169, 169),
     width / 2 + 200 * cos(PI/6),
     height / 2 + 200 * sin(PI/6),
-    "Mercury: Closest planet to the Sun.",
-    generateMultipleChoiceQuestion("Which planet is the closest to the Sun?", ["Venus", "Mercury", "Mars"], 2),
+    "Mercury: named after the Roman messenger god Mercury, who was known for his speed and eloquence.",
+    generateMultipleChoiceQuestion("Which planet is named after a Roman messenger god which reflects the planet's swift movement across the sky?", ["Venus", "Mercury", "Mars"], 2),
     "Mercury"
   ));
   planets.push(new Planet(
@@ -102,8 +102,8 @@ function setup() {
     color(255, 204, 102),
     width / 2 + 200 * cos(5 * PI/6),
     height / 2 + 200 * sin(5 * PI/6),
-    "Venus: Second planet from the Sun.",
-    generateMultipleChoiceQuestion("What is the second planet from the Sun?", ["Venus", "Earth", "Mars"], 1),
+    "Venus: Second planet from the sun and it is also the name of a Roman goddess.",
+    generateMultipleChoiceQuestion("Which planet has the same name of a Roman goddess?", ["Venus", "Earth", "Mars"], 1),
     "Venus"
   ));
   planets.push(new Planet(
