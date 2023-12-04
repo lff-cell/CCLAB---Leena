@@ -285,12 +285,39 @@ class Spacecraft {
 
             // Trigger effect for Earth
             if (planet.name === "Earth") {
+              displayFact(planet.fact);
               currentBackgroundColor = color(20, 20, 60);
+              setTimeout(() => (currentBackgroundColor = color(0)), 5000); // Lasts for 5 seconds
+            } else if (planet.name === "Mars") {
+              displayFact(planet.fact);
+              shakeCanvas(100); // Increase the shake intensity
+              setTimeout(() => displayFact(""), 5000); // Lasts for 5 seconds
+            } else if (planet.name === "Jupiter") {
+              displayFact(planet.fact);
+              generateSatellites(100); // Increase the number of satellites
+              setTimeout(() => generateSatellites(0), 8000); // Lasts for 8 seconds
+            } else if (planet.name === "Saturn") {
+              displayFact(planet.fact);
+              createRing(planet.x, planet.y);
+              setTimeout(() => createRing(0, 0), 8000); // Lasts for 8 seconds
+            } else if (planet.name === "Uranus") {
+              displayFact(planet.fact);
+              generateAuroras(200); // Increase the number of auroras
+              setTimeout(() => generateAuroras(0), 8000); // Lasts for 8 seconds
+            } else if (planet.name === "Mercury") {
+              displayFact(planet.fact);
+              createCraters(100); // Increase the number of craters
+              setTimeout(() => createCraters(0), 5000); // Lasts for 5 seconds
+            } else if (planet.name === "Venus") {
+              displayFact(planet.fact);
+              generateVolcanoes(150); // Increase the number of volcanoes
+              setTimeout(() => generateVolcanoes(0), 8000); // Lasts for 8 seconds
+            } else if (planet.name === "Neptune") {
+              displayFact(planet.fact);
+              createStorm(planet.x, planet.y);
+              setTimeout(() => createStorm(5, 100), 8000); // Lasts for 8 seconds
             }
-            // Trigger effect for Mars
-            else if (planet.name === "Mars") {
-              shakeCanvas(50);
-            }
+
 
             for (let i = 0; i < 5; i++) {
               planet.spawnAsteroid();
@@ -502,4 +529,71 @@ function getRandomPlanetName() {
 }
 function shakeCanvas(intensity) {
   translate(random(-intensity, intensity), random(-intensity, intensity));
+}
+// ... (existing code)
+
+function createRing(centerX, centerY) {
+  // Function to create a ring around the specified center coordinates
+  strokeWeight(2);
+  stroke(255, 255, 0);
+  noFill();
+  ellipse(centerX, centerY, 120, 120);
+}
+
+function generateSatellites(numSatellites) {
+  // Function to generate satellites around the spacecraft
+  for (let i = 0; i < numSatellites; i++) {
+    let angle = random(TWO_PI);
+    let distance = random(50, 150);
+    let satelliteX = spacecraft.x + distance * cos(angle);
+    let satelliteY = spacecraft.y + distance * sin(angle);
+
+    fill(255, 255, 0);
+    ellipse(satelliteX, satelliteY, 10, 10);
+  }
+}
+
+function generateAuroras(numAuroras) {
+  // Function to generate auroras around the spacecraft
+  for (let i = 0; i < numAuroras; i++) {
+    let auroraX = random(width);
+    let auroraY = random(height);
+
+    stroke(0, 255, 0, 150);
+    strokeWeight(2);
+    line(auroraX, auroraY, auroraX + random(-20, 20), auroraY + random(-20, 20));
+  }
+}
+
+function createCraters(numCraters) {
+  // Function to create craters on the planet
+  for (let i = 0; i < numCraters; i++) {
+    let craterX = random(width);
+    let craterY = random(height);
+
+    fill(150);
+    ellipse(craterX, craterY, 20, 20);
+  }
+}
+
+function generateVolcanoes(numVolcanoes) {
+  // Function to generate volcanoes on the planet
+  for (let i = 0; i < numVolcanoes; i++) {
+    let volcanoX = random(width);
+    let volcanoY = random(height);
+
+    fill(255, 0, 0);
+    triangle(volcanoX - 10, volcanoY + 20, volcanoX + 10, volcanoY + 20, volcanoX, volcanoY);
+  }
+}
+
+function createStorm(centerX, centerY) {
+  // Function to create a storm around the specified center coordinates
+  for (let i = 0; i < 10; i++) {
+    let stormX = centerX + random(-30, 30);
+    let stormY = centerY + random(-30, 30);
+
+    fill(0, 0, 255);
+    ellipse(stormX, stormY, 15, 15);
+  }
 }
