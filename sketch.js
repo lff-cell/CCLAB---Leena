@@ -26,7 +26,7 @@ let storyTexts = [
 
 let currentStoryIndex = 0;
 let textTimer = 0;
-const textDuration = 2000; // Time duration for each piece of text in milliseconds
+const textDuration = 5000; // Time duration for each piece of text in milliseconds
 
 let startQuizButton;
 let congratulationsScreen = false;
