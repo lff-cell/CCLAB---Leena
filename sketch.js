@@ -1,4 +1,3 @@
-// Define global variables
 let spacecraft;
 let planets = [];
 let currentPlanet;
@@ -14,6 +13,7 @@ let storyTextFinished = false;
 let stars = [];
 const numStars = 200;
 let videoCapture;
+let currentBackgroundColor = 0;
 
 let storyTexts = [
   "Welcome to the Space Exploration Game!",
@@ -134,6 +134,8 @@ function setup() {
 
 function draw() {
   background(0);
+  background(currentBackgroundColor);
+
 
   if (gameStarted && !quizStarted) {
     // Update and display game elements
@@ -269,15 +271,28 @@ class Spacecraft {
       if (keyIsDown(DOWN_ARROW)) {
         this.y += this.speed;
       }
-
       for (let planet of planets) {
-        if (dist(this.x, this.y, planet.x, planet.y) < 100 && currentPlanet !== planet) {
+        if (
+          dist(this.x, this.y, planet.x, planet.y) < 100 &&
+          currentPlanet !== planet &&
+          mouseIsPressed
+        ) {
           currentPlanet = planet;
           if (!planet.visited) {
             points++;
             planet.visited = true;
             displayFact(planet.fact);
-            for (let i = 0; i < 5; i++){
+
+            // Trigger effect for Earth
+            if (planet.name === "Earth") {
+              currentBackgroundColor = color(20, 20, 60);
+            }
+            // Trigger effect for Mars
+            else if (planet.name === "Mars") {
+              shakeCanvas(50);
+            }
+
+            for (let i = 0; i < 5; i++) {
               planet.spawnAsteroid();
             }
           }
@@ -285,6 +300,7 @@ class Spacecraft {
       }
     }
   }
+
 
   display() {
     image(videoCapture, this.x - 30, this.y - 20, 60, 40);
@@ -337,6 +353,7 @@ class Planet {
     this.asteroids.push(new Asteroid(this.x, this.y));
   }
 }
+
 
 class Asteroid {
   constructor(x, y) {
@@ -482,4 +499,7 @@ function generateIncorrectAnswers(count, currentPlanetName) {
 function getRandomPlanetName() {
   const planetNames = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   return planetNames[Math.floor(Math.random() * planetNames.length)];
+}
+function shakeCanvas(intensity) {
+  translate(random(-intensity, intensity), random(-intensity, intensity));
 }
