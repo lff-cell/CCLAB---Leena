@@ -20,7 +20,7 @@ let storyTexts = [
   "You are on a mission to explore distant planets.",
   "Your spacecraft is equipped with advanced technology.",
   "Use the arrow keys to navigate through space.",
-  "Visit and click on planets to earn points and learn interesting facts.",
+  "Visit planets to earn points and learn interesting facts.",
   // Add more story texts as needed
 ];
 
@@ -144,7 +144,7 @@ function draw() {
 
     // Display current story text
     fill(255);
-    textSize(18);
+    textSize(25);
     textAlign(CENTER, TOP);
     text(storyTexts[currentStoryIndex], width / 2, 20);
 
@@ -294,8 +294,8 @@ class Spacecraft {
               setTimeout(() => displayFact(""), 5000); // Lasts for 5 seconds
             } else if (planet.name === "Jupiter") {
               displayFact(planet.fact);
-              generateSatellites(100); // Increase the number of satellites
-              setTimeout(() => generateSatellites(0), 8000); // Lasts for 8 seconds
+              generateSatellites(150); // Increase the number of satellites
+              setTimeout(() => generateSatellites(0), 12000); // Lasts for 8 seconds
             } else if (planet.name === "Saturn") {
               displayFact(planet.fact);
               createRing(planet.x, planet.y);
@@ -307,14 +307,14 @@ class Spacecraft {
             } else if (planet.name === "Mercury") {
               displayFact(planet.fact);
               createCraters(100); // Increase the number of craters
-              setTimeout(() => createCraters(0), 5000); // Lasts for 5 seconds
+              setTimeout(() => createCraters(0), 8000); // Lasts for 5 seconds
             } else if (planet.name === "Venus") {
               displayFact(planet.fact);
               generateVolcanoes(150); // Increase the number of volcanoes
-              setTimeout(() => generateVolcanoes(0), 8000); // Lasts for 8 seconds
+              setTimeout(() => generateVolcanoes(0), 12000); // Lasts for 8 seconds
             } else if (planet.name === "Neptune") {
               displayFact(planet.fact);
-              createStorm(planet.x, planet.y);
+              createNeptuneVortex(planet.x, planet.y);
               setTimeout(() => createStorm(5, 100), 8000); // Lasts for 8 seconds
             }
 
@@ -586,14 +586,20 @@ function generateVolcanoes(numVolcanoes) {
     triangle(volcanoX - 10, volcanoY + 20, volcanoX + 10, volcanoY + 20, volcanoX, volcanoY);
   }
 }
+function createNeptuneVortex(centerX, centerY) {
+  // Function to create a swirling vortex around the specified center coordinates
+  let numLines = 20;
+  let radius = 30;
 
-function createStorm(centerX, centerY) {
-  // Function to create a storm around the specified center coordinates
-  for (let i = 0; i < 10; i++) {
-    let stormX = centerX + random(-30, 30);
-    let stormY = centerY + random(-30, 30);
+  for (let i = 0; i < numLines; i++) {
+    let angle = map(i, 0, numLines, 0, TWO_PI);
+    let startX = centerX + radius * cos(angle);
+    let startY = centerY + radius * sin(angle);
+    let endX = centerX + (radius + 30) * cos(angle);
+    let endY = centerY + (radius + 30) * sin(angle);
 
-    fill(0, 0, 255);
-    ellipse(stormX, stormY, 15, 15);
+    stroke(0, 0, 255);
+    strokeWeight(2);
+    line(startX, startY, endX, endY);
   }
 }
