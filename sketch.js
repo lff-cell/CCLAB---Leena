@@ -20,7 +20,7 @@ let storyTexts = [
   "You are on a mission to explore distant planets.",
   "Your spacecraft is equipped with advanced technology.",
   "Use the arrow keys to navigate through space.",
-  "Visit planets to earn points and learn interesting facts.",
+  "Visit and click on planets to earn points and learn interesting facts.",
   // Add more story texts as needed
 ];
 
