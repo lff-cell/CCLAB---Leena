@@ -530,8 +530,6 @@ function getRandomPlanetName() {
 function shakeCanvas(intensity) {
   translate(random(-intensity, intensity), random(-intensity, intensity));
 }
-// ... (existing code)
-
 function createRing(centerX, centerY) {
   // Function to create a ring around the specified center coordinates
   strokeWeight(2);
