@@ -21,13 +21,11 @@ let storyTexts = [
   "Your spacecraft is equipped with advanced technology.",
   "Use the arrow keys to navigate through space.",
   "Visit planets to earn points and learn interesting facts.",
-  // Add more story texts as needed
 ];
 
 let currentStoryIndex = 0;
 let textTimer = 0;
-const textDuration = 7000; // Time duration for each piece of text in milliseconds
-
+const textDuration = 7000; 
 let startQuizButton;
 let congratulationsScreen = false;
 let failureScreen = false;
@@ -35,7 +33,6 @@ let earthImage;
 let marsImage;
 
 function preload() {
-  // Load texture images for Earth and Mars
   earthTexture = loadImage('earthpng.png');
   marsTexture = loadImage('marspng.png');
 }
@@ -44,12 +41,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   fullscreen();
 
-  // Create video capture
   videoCapture = createCapture(VIDEO);
   videoCapture.size(80, 40); // Set the size of the video feed
-  videoCapture.hide(); // Hide the default video feed
+  videoCapture.hide(); 
 
-  // Initialize your game elements
   spacecraft = new Spacecraft();
   planets.push(new Planet(
     "Earth",
