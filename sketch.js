@@ -35,6 +35,9 @@ let marsImage;
 function preload() {
   earthTexture = loadImage('earthpng.png');
   marsTexture = loadImage('marspng.png');
+  saturnTexture = loadImage('saturnpng.png');
+  uranusTexture = loadImage('uranuspng.png');
+  jupiterTexture = loadImage('jupiterpng.png');
 }
 
 function setup() {
@@ -366,6 +369,12 @@ class Planet {
         image(earthTexture, this.x - 50, this.y - 50, 100, 100);
       } else if (this.name === "Mars") {
         image(marsTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Saturn") {
+        image(saturnTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Jupiter") {
+        image(jupiterTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Uranus") {
+        image(uranusTexture, this.x - 50, this.y - 50, 100, 100);
       } else {
         ellipse(this.x, this.y, 100, 100);
       }
