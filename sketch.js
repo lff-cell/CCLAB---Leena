@@ -26,11 +26,19 @@ let storyTexts = [
 
 let currentStoryIndex = 0;
 let textTimer = 0;
-const textDuration = 5000; // Time duration for each piece of text in milliseconds
+const textDuration = 7000; // Time duration for each piece of text in milliseconds
 
 let startQuizButton;
 let congratulationsScreen = false;
 let failureScreen = false;
+let earthImage;
+let marsImage;
+
+function preload() {
+  // Load texture images for Earth and Mars
+  earthTexture = loadImage('earthpng.png');
+  marsTexture = loadImage('marspng.png');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -359,8 +367,13 @@ class Planet {
 
   display() {
     fill(this.color);
-    ellipse(this.x, this.y, 100, 100);
-
+    if (this.name === "Earth") {
+        image(earthTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Mars") {
+        image(marsTexture, this.x - 50, this.y - 50, 100, 100);
+      } else {
+        ellipse(this.x, this.y, 100, 100);
+      }
     fill(0);
     textSize(16);
     textAlign(CENTER, CENTER);
