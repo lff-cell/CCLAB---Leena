@@ -38,6 +38,9 @@ function preload() {
   saturnTexture = loadImage('saturnpng.png');
   uranusTexture = loadImage('uranuspng.png');
   jupiterTexture = loadImage('jupiterpng.png');
+  mercuryTexture = loadImage('mercurypng.png'); 
+  venusTexture = loadImage('venuspng.png');    
+  neptuneTexture = loadImage('neptunepng.png');
 }
 
 function setup() {
@@ -373,6 +376,12 @@ class Planet {
         image(saturnTexture, this.x - 50, this.y - 50, 100, 100);
       } else if (this.name === "Jupiter") {
         image(jupiterTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Mercury") {
+        image(mercuryTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Venus") {
+        image(venusTexture, this.x - 50, this.y - 50, 100, 100);
+      } else if (this.name === "Neptune") {
+        image(neptuneTexture, this.x - 50, this.y - 50, 100, 100);
       } else if (this.name === "Uranus") {
         image(uranusTexture, this.x - 50, this.y - 50, 100, 100);
       } else {
